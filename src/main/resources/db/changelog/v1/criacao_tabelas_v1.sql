@@ -9,10 +9,11 @@ CREATE TABLE IF NOT EXISTS hospedes (
     CONSTRAINT documento_unique UNIQUE (documento)
 );
 
-COMMENT ON COLUMN hospedes.id       IS 'Identificador único do hóspede';
-COMMENT ON COLUMN hospedes.nome     IS 'Nome completo do hóspede';
-COMMENT ON COLUMN hospedes.email    IS 'Endereço de e-mail do hóspede';
-COMMENT ON COLUMN hospedes.telefone IS 'Número de telefone do hóspede';
+COMMENT ON COLUMN hospedes.id            IS 'Identificador único do hóspede';
+COMMENT ON COLUMN hospedes.nome          IS 'Nome completo do hóspede';
+COMMENT ON COLUMN hospedes.documento     IS 'Número de documento (CPF/CNPJ) do hóspede';
+COMMENT ON COLUMN hospedes.email         IS 'Endereço de e-mail do hóspede';
+COMMENT ON COLUMN hospedes.telefone      IS 'Número de telefone do hóspede';
 
 CREATE TABLE IF NOT EXISTS checkin (
     id                    BIGSERIAL      PRIMARY KEY,
