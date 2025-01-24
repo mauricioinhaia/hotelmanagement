@@ -23,7 +23,7 @@ public class HospedeDomainQueryDataAccess {
     }
 
     private HospedeDomain getHospedeOptional(Optional<HospedeDomain> hospedeOptional, String execucao) {
-        if(hospedeOptional.isPresent()) {
+        if (hospedeOptional.isPresent()) {
             return hospedeOptional.get();
         } else {
             throw new DataAccessException("Hospede não encontrado.", execucao);

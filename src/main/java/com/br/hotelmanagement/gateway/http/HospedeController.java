@@ -23,13 +23,13 @@ public class HospedeController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public PageResponse<HospedeOut> listarTodos(@PageableDefault(sort = "id", direction = Sort.Direction.ASC)
-                                            Pageable pageable) {
+                                                Pageable pageable) {
         return this.hospedeService.listarTodos(pageable);
     }
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public HospedeOut buscarPorId(@PathVariable Long id){
+    public HospedeOut buscarPorId(@PathVariable Long id) {
         return this.hospedeService.buscarPorId(id);
     }
 
@@ -41,13 +41,13 @@ public class HospedeController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deletar (@PathVariable Long id) {
+    public void deletar(@PathVariable Long id) {
         this.hospedeService.deletar(id);
     }
 
     @PatchMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public HospedeOut atualizar (@PathVariable Long id, @RequestBody HospedeIn hospedeIn) {
+    public HospedeOut atualizar(@PathVariable Long id, @RequestBody HospedeIn hospedeIn) {
         return this.hospedeService.atualizar(id, hospedeIn);
     }
 }
