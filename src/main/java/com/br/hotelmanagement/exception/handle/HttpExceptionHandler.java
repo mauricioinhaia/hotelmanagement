@@ -1,6 +1,7 @@
 package com.br.hotelmanagement.exception.handle;
 
 import com.br.hotelmanagement.exception.HospedeNotFoundException;
+import com.br.hotelmanagement.exception.PayloadException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -18,10 +19,23 @@ public class HttpExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(buildError(e.getMessage(), e.getSource()));
     }
 
+    @ExceptionHandler(PayloadException.class)
+    public ResponseEntity<Map<String, Object>> handlePayloadException(PayloadException e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(buildError(e.getMessage(), e.getSource(), e.getDetails()));
+    }
+
     private static Map<String, Object> buildError(String message, String source) {
         Map<String, Object> resultMap = new LinkedHashMap<>();
         resultMap.put("source", source);
         resultMap.put("message", message);
+        return resultMap;
+    }
+
+    private static Map<String, Object> buildError(String message, String source, Map<String, Object> details) {
+        Map<String, Object> resultMap = new LinkedHashMap<>();
+        resultMap.put("source", source);
+        resultMap.put("message", message);
+        resultMap.put("details", details);
         return resultMap;
     }
 }

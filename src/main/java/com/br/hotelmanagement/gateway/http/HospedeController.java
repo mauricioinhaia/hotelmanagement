@@ -4,6 +4,7 @@ import com.br.hotelmanagement.entity.records.in.HospedeIn;
 import com.br.hotelmanagement.entity.records.out.HospedeOut;
 import com.br.hotelmanagement.response.PageResponse;
 import com.br.hotelmanagement.service.HospedeService;
+import com.br.hotelmanagement.validator.HospedeValidator;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -36,6 +37,7 @@ public class HospedeController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public HospedeOut criar(@RequestBody HospedeIn hospede) {
+        HospedeValidator.inicializa().validarHospedeIn(hospede);
         return this.hospedeService.criar(hospede);
     }
 
