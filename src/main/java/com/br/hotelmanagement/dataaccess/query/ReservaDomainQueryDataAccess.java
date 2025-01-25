@@ -7,6 +7,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
+
 @Component
 public class ReservaDomainQueryDataAccess {
 
@@ -24,5 +26,15 @@ public class ReservaDomainQueryDataAccess {
         }
 
         return hospedesNoHotel;
+    }
+
+    public BigDecimal somarValoresReservas(Long idHospede) {
+        BigDecimal somaValores = this.reservaRepository.somarValoresReservas(idHospede);
+        return somaValores != null ? somaValores : BigDecimal.ZERO;
+    }
+
+    public BigDecimal valorUltimaReserva(Long idHospede) {
+        BigDecimal valorUltima = this.reservaRepository.valorUltimaReserva(idHospede);
+        return valorUltima != null ? valorUltima : BigDecimal.ZERO;
     }
 }

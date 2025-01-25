@@ -1,6 +1,6 @@
 package com.br.hotelmanagement.gateway.http;
 
-import com.br.hotelmanagement.entity.records.out.ReservaOut;
+import com.br.hotelmanagement.entity.records.out.ReservaComValoresOut;
 import com.br.hotelmanagement.response.PageResponse;
 import com.br.hotelmanagement.service.ReservaService;
 import org.springframework.data.domain.Pageable;
@@ -24,8 +24,8 @@ public class ReservaController {
 
     @GetMapping("/hospedes-no-hotel")
     @ResponseStatus(HttpStatus.OK)
-    public PageResponse<ReservaOut> listarHospedesNoHotel(@PageableDefault(sort = "id", direction = Sort.Direction.ASC)
-                                                          Pageable pageable) {
+    public PageResponse<ReservaComValoresOut> listarHospedesNoHotel(@PageableDefault(sort = "id", direction = Sort.Direction.ASC)
+                                                                    Pageable pageable) {
         return this.reservaService.listarHospedesNoHotel(pageable);
     }
 }
