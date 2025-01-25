@@ -15,24 +15,22 @@ COMMENT ON COLUMN hospedes.documento     IS 'Número de documento (CPF/CNPJ) do 
 COMMENT ON COLUMN hospedes.email         IS 'Endereço de e-mail do hóspede';
 COMMENT ON COLUMN hospedes.telefone      IS 'Número de telefone do hóspede';
 
-CREATE TABLE IF NOT EXISTS checkin (
+CREATE TABLE IF NOT EXISTS reserva (
     id                    BIGSERIAL      PRIMARY KEY,
     hospede               BIGINT         NOT NULL,
-    dataEntrada           TIMESTAMP      NOT NULL,
-    dataSaida             TIMESTAMP      NOT NULL,
+    checkIn               TIMESTAMP      NOT NULL,
+    checkOut              TIMESTAMP      NOT NULL,
     estacionamento        BOOLEAN        NOT NULL DEFAULT FALSE,
     status                CHAR(1)        CHECK (status IN ('A', 'C', 'F')) NOT NULL,
     valorTotal            DECIMAL(10, 2) NOT NULL,
-    valorUltimaHospedagem DECIMAL(10, 2),
 
     CONSTRAINT fk_hospede FOREIGN KEY (hospede) REFERENCES hospedes(id) ON DELETE CASCADE
 );
 
-COMMENT ON COLUMN checkin.id                    IS 'Identificador único do check-in';
-COMMENT ON COLUMN checkin.hospede               IS 'Hóspede relacionado a este check-in (id da tabela hospede)';
-COMMENT ON COLUMN checkin.dataEntrada           IS 'Data e hora de entrada do hóspede';
-COMMENT ON COLUMN checkin.dataSaida             IS 'Data e hora de saída do hóspede';
-COMMENT ON COLUMN checkin.estacionamento        IS 'Indica se o hóspede utilizou estacionamento (true/false)';
-COMMENT ON COLUMN checkin.status                IS 'Status do check-in: A - Aberto, C - Cancelado, F - Finalizado';
-COMMENT ON COLUMN checkin.valorTotal            IS 'Valor total da estadia do hóspede';
-COMMENT ON COLUMN checkin.valorUltimaHospedagem IS 'Valor cobrado na última hospedagem';
+COMMENT ON COLUMN reserva.id                    IS 'Identificador único do check-in';
+COMMENT ON COLUMN reserva.hospede               IS 'Hóspede relacionado a este check-in (id da tabela hospede)';
+COMMENT ON COLUMN reserva.checkIn               IS 'Data e hora de entrada do hóspede';
+COMMENT ON COLUMN reserva.checkOut              IS 'Data e hora de saída do hóspede';
+COMMENT ON COLUMN reserva.estacionamento        IS 'Indica se o hóspede utilizou estacionamento (true/false)';
+COMMENT ON COLUMN reserva.status                IS 'Status do check-in: A - Aberto, C - Cancelado, F - Finalizado';
+COMMENT ON COLUMN reserva.valorTotal            IS 'Valor total da estadia do hóspede';
