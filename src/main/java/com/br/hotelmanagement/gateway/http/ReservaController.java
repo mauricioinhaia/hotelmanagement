@@ -28,4 +28,11 @@ public class ReservaController {
                                                                                 Pageable pageable) {
         return this.reservaService.listarReservasEmAbertoComHospedes(pageable);
     }
+
+    @GetMapping("/reservas-finalizadas-com-hospedes")
+    @ResponseStatus(HttpStatus.OK)
+    public PageResponse<ReservaComValoresOut> listarReservasFinalizadasComHospedes(@PageableDefault(sort = "id", direction = Sort.Direction.ASC)
+                                                                                   Pageable pageable) {
+        return this.reservaService.listarReservasFinalizadasComHospedes(pageable);
+    }
 }

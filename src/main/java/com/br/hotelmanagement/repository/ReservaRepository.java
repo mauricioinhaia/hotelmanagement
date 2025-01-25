@@ -21,4 +21,10 @@ public interface ReservaRepository extends JpaRepository<ReservaDomain, Long> {
     @Query("SELECT r.valorTotal FROM ReservaDomain r WHERE r.hospede.id = :hospedeId AND " +
             "r.checkIn = (SELECT MAX(r2.checkIn) FROM ReservaDomain r2 WHERE r2.hospede.id = :hospedeId)")
     BigDecimal valorUltimaReserva(@Param("hospedeId") Long idHospede);
+
+    @Query("SELECT r FROM ReservaDomain r " +
+            "WHERE r.status = 'F' " +
+            "AND r.checkOut IS NOT NULL " +
+            "AND r.checkOut <= CURRENT_DATE")
+    Page<ReservaDomain> listarReservasFinalizadasComHospedes(Pageable pageable);
 }

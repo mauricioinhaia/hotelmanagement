@@ -35,4 +35,18 @@ public class ReservaService {
             throw new HospedeNotFoundException(e.getMessage(), e.getSource());
         }
     }
+
+    public PageResponse<ReservaComValoresOut> listarReservasFinalizadasComHospedes(Pageable pageable) {
+        try {
+            Page<ReservaDomain> paginaReserva = this.reservaDomainQueryDataAccess.listarReservasFinalizadasComHospedes(pageable);
+            Page<ReservaComValoresOut> paginaOut = paginaReserva.map(reserva -> {
+                ReservaComValoresOut reservaComValoresOut = ReservaDomainToReservaComValoresOutAdapter
+                        .inicializa().converte(reserva);
+                return reservaCalculadoraService.calcularValoresReservas(reservaComValoresOut, reserva.getHospede().getId());
+            });
+            return PageResponse.of(paginaOut);
+        } catch (DataAccessException e) {
+            throw new HospedeNotFoundException(e.getMessage(), e.getSource());
+        }
+    }
 }

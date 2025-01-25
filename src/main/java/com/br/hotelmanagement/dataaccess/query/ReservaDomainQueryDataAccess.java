@@ -19,13 +19,13 @@ public class ReservaDomainQueryDataAccess {
     }
 
     public Page<ReservaDomain> listarReservasEmAbertoComHospedes(Pageable pageable) {
-        Page<ReservaDomain> hospedesNoHotel = this.reservaRepository.listarReservasEmAbertoComHospedes(pageable);
+        Page<ReservaDomain> reservasEmAberto = this.reservaRepository.listarReservasEmAbertoComHospedes(pageable);
 
-        if (hospedesNoHotel.isEmpty()) {
-            throw new DataAccessException("Nao ha hóspedes no hotel", "listarHospedesNoHotel");
+        if (reservasEmAberto.isEmpty()) {
+            throw new DataAccessException("Não ha hóspedes no hotel", "listarReservasEmAbertoComHospedes");
         }
 
-        return hospedesNoHotel;
+        return reservasEmAberto;
     }
 
     public BigDecimal somarValoresReservas(Long idHospede) {
@@ -36,5 +36,15 @@ public class ReservaDomainQueryDataAccess {
     public BigDecimal valorUltimaReserva(Long idHospede) {
         BigDecimal valorUltima = this.reservaRepository.valorUltimaReserva(idHospede);
         return valorUltima != null ? valorUltima : BigDecimal.ZERO;
+    }
+
+    public Page<ReservaDomain> listarReservasFinalizadasComHospedes(Pageable pageable) {
+        Page<ReservaDomain> reservasFinalizadas = this.reservaRepository.listarReservasFinalizadasComHospedes(pageable);
+
+        if (reservasFinalizadas.isEmpty()) {
+            throw new DataAccessException("Não foram encontrados hóspedes", "listarReservasFinalizadasComHospedes");
+        }
+
+        return reservasFinalizadas;
     }
 }
