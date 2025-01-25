@@ -22,9 +22,9 @@ public class ReservaService {
         this.reservaCalculadoraService = reservaCalculadoraService;
     }
 
-    public PageResponse<ReservaComValoresOut> listarHospedesNoHotel(Pageable pageable) {
+    public PageResponse<ReservaComValoresOut> listarReservasEmAbertoComHospedes(Pageable pageable) {
         try {
-            Page<ReservaDomain> paginaReserva = this.reservaDomainQueryDataAccess.listarHospedesNoHotel(pageable);
+            Page<ReservaDomain> paginaReserva = this.reservaDomainQueryDataAccess.listarReservasEmAbertoComHospedes(pageable);
             Page<ReservaComValoresOut> paginaOut = paginaReserva.map(reserva -> {
                 ReservaComValoresOut reservaComValoresOut = ReservaDomainToReservaComValoresOutAdapter
                         .inicializa().converte(reserva);

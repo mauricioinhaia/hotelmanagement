@@ -22,10 +22,10 @@ public class ReservaController {
         this.reservaService = reservaService;
     }
 
-    @GetMapping("/hospedes-no-hotel")
+    @GetMapping("/reservas-em-aberto-com-hospedes")
     @ResponseStatus(HttpStatus.OK)
-    public PageResponse<ReservaComValoresOut> listarHospedesNoHotel(@PageableDefault(sort = "id", direction = Sort.Direction.ASC)
-                                                                    Pageable pageable) {
-        return this.reservaService.listarHospedesNoHotel(pageable);
+    public PageResponse<ReservaComValoresOut> listarReservasEmAbertoComHospedes(@PageableDefault(sort = "id", direction = Sort.Direction.ASC)
+                                                                                Pageable pageable) {
+        return this.reservaService.listarReservasEmAbertoComHospedes(pageable);
     }
 }

@@ -13,7 +13,7 @@ public interface ReservaRepository extends JpaRepository<ReservaDomain, Long> {
 
     @Query("SELECT r FROM ReservaDomain r WHERE r.checkIn IS NOT NULL AND " +
             "(r.checkOut IS NULL OR r.checkOut > CURRENT_TIMESTAMP) AND r.status = 'A'")
-    Page<ReservaDomain> listarHospedesNoHotel(Pageable pageable);
+    Page<ReservaDomain> listarReservasEmAbertoComHospedes(Pageable pageable);
 
     @Query("SELECT SUM(r.valorTotal) FROM ReservaDomain r WHERE r.hospede.id = :hospedeId")
     BigDecimal somarValoresReservas(@Param("hospedeId") Long idHospede);

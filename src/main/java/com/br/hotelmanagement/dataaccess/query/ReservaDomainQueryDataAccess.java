@@ -18,8 +18,8 @@ public class ReservaDomainQueryDataAccess {
         this.reservaRepository = reservaRepository;
     }
 
-    public Page<ReservaDomain> listarHospedesNoHotel(Pageable pageable) {
-        Page<ReservaDomain> hospedesNoHotel = this.reservaRepository.listarHospedesNoHotel(pageable);
+    public Page<ReservaDomain> listarReservasEmAbertoComHospedes(Pageable pageable) {
+        Page<ReservaDomain> hospedesNoHotel = this.reservaRepository.listarReservasEmAbertoComHospedes(pageable);
 
         if (hospedesNoHotel.isEmpty()) {
             throw new DataAccessException("Nao ha hóspedes no hotel", "listarHospedesNoHotel");
