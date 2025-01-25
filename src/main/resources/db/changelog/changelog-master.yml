@@ -5,3 +5,9 @@ databaseChangeLog:
       changes:
         - sqlFile:
             path: classpath:db/changelog/v1/criacao_tabelas_v1.sql
+  - changeSet:
+      id: 2
+      author: mauricioinhaia
+      changes:
+        - sqlFile:
+            path: classpath:db/changelog/v1/seeding_tabela_hospedes_v1.sql

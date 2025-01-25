@@ -1,0 +1,16 @@
+INSERT INTO hospedes (nome, documento, email, telefone) VALUES
+('João Silva',      '12345678901', 'joao.silva@email.com',      '(47) 99999-1111'),
+('Maria Oliveira',  '23456789012', 'maria.oliveira@email.com',  '(48) 98888-2222'),
+('Carlos Souza',    '34567890123', 'carlos.souza@email.com',    '(49) 97777-3333'),
+('Ana Lima',        '45678901234', 'ana.lima@email.com',        '(47) 96666-4444'),
+('Paulo Santos',    '56789012345', 'paulo.santos@email.com',    '(48) 95555-5555'),
+('Fernanda Costa',  '67890123456', 'fernanda.costa@email.com',  '(49) 94444-6666'),
+('Rafael Almeida',  '78901234567', 'rafael.almeida@email.com',  '(47) 93333-7777'),
+('Juliana Pereira', '89012345678', 'juliana.pereira@email.com', '(48) 92222-8888'),
+('Bruno Rocha',     '90123456789', 'bruno.rocha@email.com',     '(49) 91111-9999'),
+('Gabriela Nunes',  '01234567890', 'gabriela.nunes@email.com',  '(47) 90000-0000'),
+('Lucas Carvalho',  '11122233344', 'lucas.carvalho@email.com',  '(48) 98877-1111'),
+('Patrícia Mendes', '22233344455', 'patricia.mendes@email.com', '(49) 97766-2222'),
+('Rodrigo Martins', '33344455566', 'rodrigo.martins@email.com', '(47) 96655-3333'),
+('Beatriz Vieira',  '44455566677', 'beatriz.vieira@email.com',  '(48) 95544-4444'),
+('Tiago Barros',    '55566677788', 'tiago.barros@email.com',    '(49) 94433-5555');
