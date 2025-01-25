@@ -21,11 +21,11 @@ public class HospedeValidator {
         Map<String, Object> erros = new HashMap<>();
 
         if (Objects.isNull(hospedeIn.nome())) {
-            erros.put("nome", "O nome do hospede não pode ser nulo");
+            erros.put("nome", "O nome do hóspede não pode ser nulo");
         }
 
         if (Objects.isNull(hospedeIn.documento())) {
-            erros.put("documento", "O documento do hospede não pode ser nulo");
+            erros.put("documento", "O documento do hóspede não pode ser nulo");
         } else if (hospedeIn.documento().length() < 11 || hospedeIn.documento().length() > 14) {
             erros.put("documento", "O documento deve conter entre 11 e 14 digitos");
         }
@@ -40,6 +40,20 @@ public class HospedeValidator {
 
         if (!erros.isEmpty()) {
             throw new PayloadException("Campos incorretos", this.getClass().getSimpleName(), erros);
+        }
+    }
+
+    public void validarFiltrosBuscarHospedes(String nome,
+                                             String documento,
+                                             String email,
+                                             String telefone) {
+        Map<String, Object> erro = new HashMap<>();
+        if (Objects.isNull(nome) && Objects.isNull(documento) && Objects.isNull(email) && Objects.isNull(telefone)) {
+            erro.put("filtros", "Para buscar hóspedes favor informar: nome, documento, email ou telefone");
+        }
+
+        if(!erro.isEmpty()) {
+            throw new PayloadException("Filtros necessários", this.getClass().getSimpleName(), erro);
         }
     }
 }

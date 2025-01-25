@@ -33,4 +33,24 @@ public class HospedeDomainQueryDataAccess {
     public Page<HospedeDomain> listarTodos(Pageable pageable) {
         return this.hospedeRepository.findAll(pageable);
     }
+
+    public Page<HospedeDomain> buscarHospedes(String nome,
+                                              String documento,
+                                              String email,
+                                              String telefone,
+                                              Pageable pageable) {
+        Page<HospedeDomain> hospedes = this.hospedeRepository.buscarHospedes(
+                nome,
+                documento,
+                email,
+                telefone,
+                pageable
+        );
+
+        if (hospedes.isEmpty()) {
+            throw new DataAccessException("Nenhum hóspede encontrado.", "buscarHospedes");
+        }
+
+        return hospedes;
+    }
 }

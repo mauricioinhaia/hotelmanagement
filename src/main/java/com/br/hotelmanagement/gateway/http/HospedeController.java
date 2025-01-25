@@ -34,6 +34,18 @@ public class HospedeController {
         return this.hospedeService.buscarPorId(id);
     }
 
+    @GetMapping("/buscar")
+    @ResponseStatus(HttpStatus.OK)
+    public PageResponse<HospedeOut> buscarHospedes(
+            @RequestParam(required = false) String nome,
+            @RequestParam(required = false) String documento,
+            @RequestParam(required = false) String email,
+            @RequestParam(required = false) String telefone,
+            @PageableDefault(sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
+        HospedeValidator.inicializa().validarFiltrosBuscarHospedes(nome, documento, email, telefone);
+        return this.hospedeService.buscarHospedes(nome, documento, email, telefone, pageable);
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public HospedeOut criar(@RequestBody HospedeIn hospede) {

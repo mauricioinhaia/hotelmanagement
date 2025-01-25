@@ -42,6 +42,25 @@ public class HospedeService {
         }
     }
 
+    public PageResponse<HospedeOut> buscarHospedes(String nome,
+                                                   String documento,
+                                                   String email,
+                                                   String telefone,
+                                                   Pageable pageable) {
+        try {
+            Page<HospedeDomain> paginaHospedes = this.hospedeDomainQueryDataAccess.buscarHospedes(
+                    nome,
+                    documento,
+                    email,
+                    telefone,
+                    pageable);
+            Page<HospedeOut> paginaOut = paginaHospedes.map(hospede -> HospedeDomainToHospedeOutAdapter.inicializa().converte(hospede));
+            return PageResponse.of(paginaOut);
+        } catch (DataAccessException e) {
+            throw new HospedeNotFoundException(e.getMessage(), e.getSource());
+        }
+    }
+
     public HospedeOut criar(HospedeIn hospedeIn) {
         HospedeDomain hospede = this.hospedeDomainCommandDataAccess.save(HospedeInToHospedeDomainAdapter
                 .inicializa().converte(hospedeIn));
