@@ -17,3 +17,9 @@ databaseChangeLog:
       changes:
         - sqlFile:
             path: classpath:db/changelog/v1/seeding_tabela_reservas_v1.sql
+  - changeSet:
+      id: 4
+      author: mauricioinhaia
+      changes:
+        - sqlFile:
+            path: classpath:db/changelog/v1/criacao_tabela_tarifas_v1.sql
