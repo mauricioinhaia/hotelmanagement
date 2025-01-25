@@ -1,4 +1,4 @@
-package com.br.hotelmanagement.service;
+package com.br.hotelmanagement.service.reserva;
 
 import com.br.hotelmanagement.dataaccess.query.ReservaDomainQueryDataAccess;
 import com.br.hotelmanagement.entity.records.out.ReservaComValoresOut;

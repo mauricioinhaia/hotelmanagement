@@ -3,7 +3,7 @@ package com.br.hotelmanagement.gateway.http;
 import com.br.hotelmanagement.entity.records.in.HospedeIn;
 import com.br.hotelmanagement.entity.records.out.HospedeOut;
 import com.br.hotelmanagement.response.PageResponse;
-import com.br.hotelmanagement.service.HospedeService;
+import com.br.hotelmanagement.service.hospede.HospedeService;
 import com.br.hotelmanagement.validator.HospedeValidator;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;

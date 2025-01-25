@@ -2,7 +2,7 @@ package com.br.hotelmanagement.gateway.http;
 
 import com.br.hotelmanagement.entity.records.out.ReservaComValoresOut;
 import com.br.hotelmanagement.response.PageResponse;
-import com.br.hotelmanagement.service.ReservaService;
+import com.br.hotelmanagement.service.reserva.ReservaService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;

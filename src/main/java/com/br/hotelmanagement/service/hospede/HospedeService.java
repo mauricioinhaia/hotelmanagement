@@ -1,4 +1,4 @@
-package com.br.hotelmanagement.service;
+package com.br.hotelmanagement.service.hospede;
 
 import com.br.hotelmanagement.dataaccess.command.HospedeDomainCommandDataAccess;
 import com.br.hotelmanagement.dataaccess.query.HospedeDomainQueryDataAccess;
