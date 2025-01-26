@@ -98,6 +98,10 @@ public class ReservaService {
         if (Objects.nonNull(reservaIn.checkIn())) {
             reservaDomain.setCheckIn(reservaIn.checkIn());
         }
+        if (Objects.nonNull(reservaIn.valorTotal())) {
+            reservaDomain.setValorTotal(reservaIn.valorTotal());
+        }
+        reservaDomain.setEstacionamento(reservaIn.estacionamento());
 
         return reservaDomain;
     }
