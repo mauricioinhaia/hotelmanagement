@@ -16,4 +16,8 @@ public class ReservaDomainCommandDataAccess {
     public ReservaDomain save(ReservaDomain reservaDomain) {
         return this.reservaRepository.save(reservaDomain);
     }
+
+    public void deleteById(Long id) {
+        this.reservaRepository.deleteById(id);
+    }
 }

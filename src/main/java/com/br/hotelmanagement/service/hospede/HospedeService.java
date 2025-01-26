@@ -70,7 +70,7 @@ public class HospedeService {
     public void deletar(Long id) {
         try {
             this.hospedeDomainQueryDataAccess.findById(id);
-            this.hospedeDomainCommandDataAccess.deletar(id);
+            this.hospedeDomainCommandDataAccess.deleteById(id);
         } catch (DataAccessException e) {
             throw new HospedeNotFoundException(e.getMessage(), e.getSource());
         }

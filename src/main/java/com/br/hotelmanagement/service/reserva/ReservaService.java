@@ -3,6 +3,7 @@ package com.br.hotelmanagement.service.reserva;
 import com.br.hotelmanagement.dataaccess.command.ReservaDomainCommandDataAccess;
 import com.br.hotelmanagement.dataaccess.query.ReservaDomainQueryDataAccess;
 import com.br.hotelmanagement.domain.ReservaDomain;
+import com.br.hotelmanagement.domain.ReservaStatus;
 import com.br.hotelmanagement.entity.adapter.reserva.ReservaDomainToReservaComValoresOutAdapter;
 import com.br.hotelmanagement.entity.adapter.reserva.ReservaDomainToReservaOutAdapter;
 import com.br.hotelmanagement.entity.adapter.reserva.ReservaInToReservaDomainAdapter;
@@ -10,6 +11,7 @@ import com.br.hotelmanagement.entity.records.in.ReservaIn;
 import com.br.hotelmanagement.entity.records.out.ReservaComValoresOut;
 import com.br.hotelmanagement.entity.records.out.ReservaOut;
 import com.br.hotelmanagement.exception.DataAccessException;
+import com.br.hotelmanagement.exception.ReservaNaoPodeSerExcluidaException;
 import com.br.hotelmanagement.exception.ReservaNotFoundException;
 import com.br.hotelmanagement.response.PageResponse;
 import org.springframework.data.domain.Page;
@@ -17,6 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Service
@@ -54,6 +57,24 @@ public class ReservaService {
         ReservaDomain reservaDomainSalva = this.reservaDomainCommandDataAccess.save(reservaDomain);
 
         return ReservaDomainToReservaOutAdapter.inicializa().converte(reservaDomainSalva);
+    }
+
+    public void deletar(Long id) {
+        try {
+            ReservaDomain reservaDomain = this.reservaDomainQueryDataAccess.findById(id);
+            if (this.reservaNaoPodeSerExcluida(reservaDomain.getCheckOut(), reservaDomain.getStatus())) {
+                throw new ReservaNaoPodeSerExcluidaException("A reserva não pode ser excluída", getClass().getSimpleName());
+            }
+
+            this.reservaDomainCommandDataAccess.deleteById(id);
+        } catch (DataAccessException e) {
+            throw new ReservaNotFoundException(e.getMessage(), e.getSource());
+        }
+    }
+
+    private boolean reservaNaoPodeSerExcluida(LocalDateTime checkOut, String status) {
+        return Objects.nonNull(checkOut) &&
+                ReservaStatus.FINALIZADO.getSigla().equals(status);
     }
 
     public PageResponse<ReservaComValoresOut> listarReservasEmAbertoComHospedes(Pageable pageable) {

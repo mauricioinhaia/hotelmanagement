@@ -17,7 +17,7 @@ public class HospedeDomainCommandDataAccess {
         return this.hospedeRepository.save(hospedeDomain);
     }
 
-    public void deletar(Long id) {
+    public void deleteById(Long id) {
         this.hospedeRepository.deleteById(id);
     }
 }
