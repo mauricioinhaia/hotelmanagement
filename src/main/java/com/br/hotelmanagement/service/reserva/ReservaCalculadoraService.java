@@ -19,7 +19,8 @@ public class ReservaCalculadoraService {
     private final ReservaDomainQueryDataAccess reservaDomainQueryDataAccess;
     private final TarifaDomainQueryDataAccess tarifaDomainQueryDataAccess;
 
-    public ReservaCalculadoraService(ReservaDomainQueryDataAccess reservaDomainQueryDataAccess, TarifaDomainQueryDataAccess tarifaDomainQueryDataAccess) {
+    public ReservaCalculadoraService(ReservaDomainQueryDataAccess reservaDomainQueryDataAccess,
+                                     TarifaDomainQueryDataAccess tarifaDomainQueryDataAccess) {
         this.reservaDomainQueryDataAccess = reservaDomainQueryDataAccess;
         this.tarifaDomainQueryDataAccess = tarifaDomainQueryDataAccess;
     }

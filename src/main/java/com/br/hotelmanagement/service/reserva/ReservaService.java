@@ -27,7 +27,10 @@ public class ReservaService {
     private final ReservaCalculadoraService reservaCalculadoraService;
     private final ReservaStatusService reservaStatusService;
 
-    public ReservaService(ReservaDomainQueryDataAccess reservaDomainQueryDataAccess, ReservaDomainCommandDataAccess reservaDomainCommandDataAccess, ReservaCalculadoraService reservaCalculadoraService, ReservaStatusService reservaStatusService) {
+    public ReservaService(ReservaDomainQueryDataAccess reservaDomainQueryDataAccess,
+                          ReservaDomainCommandDataAccess reservaDomainCommandDataAccess,
+                          ReservaCalculadoraService reservaCalculadoraService,
+                          ReservaStatusService reservaStatusService) {
         this.reservaDomainQueryDataAccess = reservaDomainQueryDataAccess;
         this.reservaDomainCommandDataAccess = reservaDomainCommandDataAccess;
         this.reservaCalculadoraService = reservaCalculadoraService;
