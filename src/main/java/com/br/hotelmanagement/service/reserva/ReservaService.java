@@ -77,6 +77,31 @@ public class ReservaService {
                 ReservaStatus.FINALIZADO.getSigla().equals(status);
     }
 
+    public ReservaOut atualizar(Long id, ReservaIn reservaIn) {
+        try {
+            ReservaDomain reservaAtualizada = this.atualizaCampos(
+                    this.reservaDomainQueryDataAccess.findById(id), reservaIn);
+            ReservaDomain reservaSalva = this.reservaDomainCommandDataAccess.save(reservaAtualizada);
+            return ReservaDomainToReservaOutAdapter.inicializa().converte(reservaSalva);
+        } catch (DataAccessException e) {
+            throw new ReservaNotFoundException(e.getMessage(), e.getSource());
+        }
+    }
+
+    private ReservaDomain atualizaCampos(ReservaDomain reservaDomain, ReservaIn reservaIn) {
+        if (Objects.nonNull(reservaIn.hospede())) {
+            reservaDomain.setHospede(reservaIn.hospede());
+        }
+        if (Objects.nonNull(reservaIn.checkOut())) {
+            reservaDomain.setCheckOut(reservaIn.checkOut());
+        }
+        if (Objects.nonNull(reservaIn.checkIn())) {
+            reservaDomain.setCheckIn(reservaIn.checkIn());
+        }
+
+        return reservaDomain;
+    }
+
     public PageResponse<ReservaComValoresOut> listarReservasEmAbertoComHospedes(Pageable pageable) {
         try {
             Page<ReservaDomain> paginaReserva = this.reservaDomainQueryDataAccess.listarReservasEmAbertoComHospedes(pageable);

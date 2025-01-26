@@ -41,6 +41,12 @@ public class ReservaController {
         this.reservaService.deletar(id);
     }
 
+    @PatchMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public ReservaOut atualizar(@PathVariable Long id, @RequestBody ReservaIn reservaIn) {
+        return this.reservaService.atualizar(id, reservaIn);
+    }
+
     @GetMapping("/reservas-em-aberto-com-hospedes")
     @ResponseStatus(HttpStatus.OK)
     public PageResponse<ReservaComValoresOut> listarReservasEmAbertoComHospedes(@PageableDefault(sort = "id", direction = Sort.Direction.ASC)
