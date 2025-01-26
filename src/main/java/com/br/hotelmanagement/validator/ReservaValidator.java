@@ -18,17 +18,17 @@ public class ReservaValidator {
         Map<String, Object> erros = new HashMap<>();
 
         if (Objects.isNull(reservaIn.hospede())) {
-            erros.put("hospede", "Hospede nao pode ser nulo");
+            erros.put("hospede", "Hospede não pode ser nulo");
         }
 
         if (Objects.isNull(reservaIn.checkIn())) {
-            erros.put("checkIn", "O checkIn nao pode ser nulo");
+            erros.put("checkIn", "O checkIn não pode ser nulo");
         } else if (reservaIn.checkIn().isBefore(LocalDateTime.now())) {
-            erros.put("checkIn", "A data de checkIn nao pode ser anterior a data atual");
+            erros.put("checkIn", "A data de checkIn não pode ser anterior a data atual");
         }
 
         if (Objects.nonNull(reservaIn.checkOut()) && reservaIn.checkOut().isBefore(reservaIn.checkIn())) {
-            erros.put("checkOut", "A data de checkOut nao pode ser anterior a data de checkIn");
+            erros.put("checkOut", "A data de checkOut não pode ser anterior a data de checkIn");
         }
 
         if (!erros.isEmpty()) {
