@@ -3,7 +3,6 @@ package com.br.hotelmanagement.service.reserva;
 import com.br.hotelmanagement.dataaccess.command.ReservaDomainCommandDataAccess;
 import com.br.hotelmanagement.dataaccess.query.ReservaDomainQueryDataAccess;
 import com.br.hotelmanagement.domain.ReservaDomain;
-import com.br.hotelmanagement.domain.ReservaStatus;
 import com.br.hotelmanagement.entity.adapter.reserva.ReservaDomainToReservaComValoresOutAdapter;
 import com.br.hotelmanagement.entity.adapter.reserva.ReservaDomainToReservaOutAdapter;
 import com.br.hotelmanagement.entity.adapter.reserva.ReservaInToReservaDomainAdapter;
@@ -18,7 +17,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Service
@@ -27,11 +25,13 @@ public class ReservaService {
     private final ReservaDomainQueryDataAccess reservaDomainQueryDataAccess;
     private final ReservaDomainCommandDataAccess reservaDomainCommandDataAccess;
     private final ReservaCalculadoraService reservaCalculadoraService;
+    private final ReservaStatusService reservaStatusService;
 
-    public ReservaService(ReservaDomainQueryDataAccess reservaDomainQueryDataAccess, ReservaDomainCommandDataAccess reservaDomainCommandDataAccess, ReservaCalculadoraService reservaCalculadoraService) {
+    public ReservaService(ReservaDomainQueryDataAccess reservaDomainQueryDataAccess, ReservaDomainCommandDataAccess reservaDomainCommandDataAccess, ReservaCalculadoraService reservaCalculadoraService, ReservaStatusService reservaStatusService) {
         this.reservaDomainQueryDataAccess = reservaDomainQueryDataAccess;
         this.reservaDomainCommandDataAccess = reservaDomainCommandDataAccess;
         this.reservaCalculadoraService = reservaCalculadoraService;
+        this.reservaStatusService = reservaStatusService;
     }
 
     public ReservaOut criar(ReservaIn reservaIn) {
@@ -39,25 +39,10 @@ public class ReservaService {
         BigDecimal valorTotalReserva = Objects.isNull(reservaDomain.getCheckOut()) ? BigDecimal.ZERO :
                 this.reservaCalculadoraService.calcularValorReserva(reservaDomain);
         reservaDomain.setValorTotal(valorTotalReserva);
-        reservaDomain.setStatus(this.definiStatusReserva(reservaDomain).getSigla());
+        reservaDomain.setStatus(reservaStatusService.definirStatusReserva(reservaDomain).getSigla());
         ReservaDomain reservaDomainSalva = this.reservaDomainCommandDataAccess.save(reservaDomain);
 
         return ReservaDomainToReservaOutAdapter.inicializa().converte(reservaDomainSalva);
-    }
-
-    private ReservaStatus definiStatusReserva(ReservaDomain reservaDomain) {
-        if (Objects.nonNull(reservaDomain.getCheckIn()) && Objects.nonNull(reservaDomain.getCheckOut())) {
-            if (reservaDomain.getCheckOut().isBefore(LocalDateTime.now())) {
-                return ReservaStatus.FINALIZADO;
-            }
-            return ReservaStatus.ABERTO;
-        }
-
-        if (Objects.nonNull(reservaDomain.getCheckIn()) && Objects.isNull(reservaDomain.getCheckOut())) {
-            return ReservaStatus.ABERTO;
-        }
-
-        return ReservaStatus.FINALIZADO;
     }
 
     public PageResponse<ReservaComValoresOut> listarReservasEmAbertoComHospedes(Pageable pageable) {
