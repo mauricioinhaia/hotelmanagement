@@ -5,6 +5,7 @@ import com.br.hotelmanagement.entity.records.out.ReservaComValoresOut;
 import com.br.hotelmanagement.entity.records.out.ReservaOut;
 import com.br.hotelmanagement.response.PageResponse;
 import com.br.hotelmanagement.service.reserva.ReservaService;
+import com.br.hotelmanagement.validator.ReservaValidator;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -24,6 +25,7 @@ public class ReservaController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ReservaOut criar(@RequestBody ReservaIn reservaIn){
+        ReservaValidator.inicializa().validarReservaIn(reservaIn);
         return this.reservaService.criar(reservaIn);
     }
 
