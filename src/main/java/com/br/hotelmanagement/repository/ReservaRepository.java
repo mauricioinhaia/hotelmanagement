@@ -18,8 +18,11 @@ public interface ReservaRepository extends JpaRepository<ReservaDomain, Long> {
     @Query("SELECT SUM(r.valorTotal) FROM ReservaDomain r WHERE r.hospede.id = :hospedeId")
     BigDecimal somarValoresReservas(@Param("hospedeId") Long idHospede);
 
-    @Query("SELECT r.valorTotal FROM ReservaDomain r WHERE r.hospede.id = :hospedeId AND " +
-            "r.checkIn = (SELECT MAX(r2.checkIn) FROM ReservaDomain r2 WHERE r2.hospede.id = :hospedeId)")
+    @Query(value = "SELECT r.valortotal FROM reservas r WHERE r.hospede = :hospedeId AND " +
+            "r.checkin = (SELECT r2.checkin FROM reservas r2 WHERE r2.hospede = :hospedeId " +
+            "ORDER BY r2.checkin DESC LIMIT 1) " +
+            "ORDER BY r.id DESC",
+            nativeQuery = true)
     BigDecimal valorUltimaReserva(@Param("hospedeId") Long idHospede);
 
     @Query("SELECT r FROM ReservaDomain r " +

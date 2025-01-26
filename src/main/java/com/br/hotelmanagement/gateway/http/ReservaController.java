@@ -1,16 +1,15 @@
 package com.br.hotelmanagement.gateway.http;
 
+import com.br.hotelmanagement.entity.records.in.ReservaIn;
 import com.br.hotelmanagement.entity.records.out.ReservaComValoresOut;
+import com.br.hotelmanagement.entity.records.out.ReservaOut;
 import com.br.hotelmanagement.response.PageResponse;
 import com.br.hotelmanagement.service.reserva.ReservaService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/reservas")
@@ -20,6 +19,12 @@ public class ReservaController {
 
     public ReservaController(ReservaService reservaService) {
         this.reservaService = reservaService;
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public ReservaOut criar(@RequestBody ReservaIn reservaIn){
+        return this.reservaService.criar(reservaIn);
     }
 
     @GetMapping("/reservas-em-aberto-com-hospedes")

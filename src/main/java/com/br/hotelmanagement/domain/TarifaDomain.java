@@ -12,11 +12,13 @@ public class TarifaDomain {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "tipotarifa")
-    private String tipoTarifa;
+    @Column(name = "descricaotarifa")
+    private String descricao;
 
-    @Column(name = "periodo")
-    private String periodo;
+    private boolean fimdesemana;
+
+    @Column(name = "tiposervico")
+    private String tipoServico;
 
     @Column(name = "valor")
     private BigDecimal valor;
@@ -29,20 +31,20 @@ public class TarifaDomain {
         this.id = id;
     }
 
-    public String getTipoTarifa() {
-        return tipoTarifa;
+    public String getDescricao() {
+        return descricao;
     }
 
-    public void setTipoTarifa(String tipoTarifa) {
-        this.tipoTarifa = tipoTarifa;
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
-    public String getPeriodo() {
-        return periodo;
+    public String getTipoServico() {
+        return tipoServico;
     }
 
-    public void setPeriodo(String periodo) {
-        this.periodo = periodo;
+    public void setTipoServico(String tipoServico) {
+        this.tipoServico = tipoServico;
     }
 
     public BigDecimal getValor() {
@@ -51,5 +53,13 @@ public class TarifaDomain {
 
     public void setValor(BigDecimal valor) {
         this.valor = valor;
+    }
+
+    public boolean isFimdesemana() {
+        return fimdesemana;
+    }
+
+    public void setFimdesemana(boolean fimdesemana) {
+        this.fimdesemana = fimdesemana;
     }
 }
