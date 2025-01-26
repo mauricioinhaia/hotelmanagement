@@ -11,7 +11,9 @@ import java.math.BigDecimal;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class ReservaCalculadoraService {
@@ -37,11 +39,18 @@ public class ReservaCalculadoraService {
         long diasDeSemana = this.calcularDiasDeSemana(reservaDomain.getCheckIn(), reservaDomain.getCheckOut());
         long diasFinaisDeSemana = this.calcularFinaisDeSemana(reservaDomain.getCheckIn(), reservaDomain.getCheckOut());
         //TODO: fazer enum para tipservico
-        BigDecimal valorTotalReserva = calcularValorPorTipo(tarifas, "H", diasDeSemana, diasFinaisDeSemana);
+        BigDecimal valorTotalReserva = this.calcularValorPorTipo(tarifas, "H", diasDeSemana, diasFinaisDeSemana);
 
         BigDecimal valorEstacionamento = BigDecimal.ZERO;
         if (reservaDomain.isEstacionamento()) {
-            valorEstacionamento = calcularValorPorTipo(tarifas, "E", diasDeSemana, diasFinaisDeSemana);
+            valorEstacionamento = this.calcularValorPorTipo(tarifas, "E", diasDeSemana, diasFinaisDeSemana);
+        }
+
+        valorTotalReserva = valorTotalReserva.add(this.calcularDiariaExtra(
+                tarifas, reservaDomain.getCheckOut(), "H"));
+        if (reservaDomain.isEstacionamento()) {
+            valorEstacionamento = valorEstacionamento.add(this.calcularDiariaExtra(
+                    tarifas, reservaDomain.getCheckOut(), "E"));
         }
 
         return valorTotalReserva.add(valorEstacionamento);
@@ -86,4 +95,20 @@ public class ReservaCalculadoraService {
         return dia == DayOfWeek.SATURDAY || dia == DayOfWeek.SUNDAY;
     }
 
+    private BigDecimal calcularDiariaExtra(List<TarifaDomain> tarifas, LocalDateTime checkout, String tipoServico) {
+        if (Objects.isNull(tarifas) || tarifas.isEmpty() || Objects.isNull(checkout) || Objects.isNull(tipoServico)) {
+            throw new IllegalArgumentException("Para calcular a Diaria Extra precisa informar: as tarifas," +
+                    " checkout e tipo serviço");
+        }
+
+        if (checkout.toLocalTime().isAfter(LocalTime.of(16, 30))) {
+            boolean isFinalDeSemana = isFimDeSemana(checkout.toLocalDate());
+            return tarifas.stream()
+                    .filter(tarifa -> tarifa.getTipoServico().equals(tipoServico) && tarifa.isFimdesemana() == isFinalDeSemana)
+                    .map(TarifaDomain::getValor)
+                    .findFirst()
+                    .orElse(BigDecimal.ZERO);
+        }
+        return BigDecimal.ZERO;
+    }
 }
