@@ -22,9 +22,15 @@ public class ReservaController {
         this.reservaService = reservaService;
     }
 
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public ReservaOut buscarPorId(@PathVariable Long id) {
+        return this.reservaService.buscarPorId(id);
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ReservaOut criar(@RequestBody ReservaIn reservaIn){
+    public ReservaOut criar(@RequestBody ReservaIn reservaIn) {
         ReservaValidator.inicializa().validarReservaIn(reservaIn);
         return this.reservaService.criar(reservaIn);
     }

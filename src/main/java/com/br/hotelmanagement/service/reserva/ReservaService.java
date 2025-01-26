@@ -10,7 +10,7 @@ import com.br.hotelmanagement.entity.records.in.ReservaIn;
 import com.br.hotelmanagement.entity.records.out.ReservaComValoresOut;
 import com.br.hotelmanagement.entity.records.out.ReservaOut;
 import com.br.hotelmanagement.exception.DataAccessException;
-import com.br.hotelmanagement.exception.HospedeNotFoundException;
+import com.br.hotelmanagement.exception.ReservaNotFoundException;
 import com.br.hotelmanagement.response.PageResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -34,6 +34,14 @@ public class ReservaService {
         this.reservaStatusService = reservaStatusService;
     }
 
+    public ReservaOut buscarPorId(Long id) {
+        try {
+            return ReservaDomainToReservaOutAdapter.inicializa().converte(this.reservaDomainQueryDataAccess.findById(id));
+        } catch (DataAccessException e) {
+            throw new ReservaNotFoundException(e.getMessage(), e.getSource());
+        }
+    }
+
     public ReservaOut criar(ReservaIn reservaIn) {
         ReservaDomain reservaDomain = ReservaInToReservaDomainAdapter.inicializa().converte(reservaIn);
         BigDecimal valorTotalReserva = Objects.isNull(reservaDomain.getCheckOut()) ? BigDecimal.ZERO :
@@ -55,7 +63,7 @@ public class ReservaService {
             });
             return PageResponse.of(paginaOut);
         } catch (DataAccessException e) {
-            throw new HospedeNotFoundException(e.getMessage(), e.getSource());
+            throw new ReservaNotFoundException(e.getMessage(), e.getSource());
         }
     }
 
@@ -69,7 +77,7 @@ public class ReservaService {
             });
             return PageResponse.of(paginaOut);
         } catch (DataAccessException e) {
-            throw new HospedeNotFoundException(e.getMessage(), e.getSource());
+            throw new ReservaNotFoundException(e.getMessage(), e.getSource());
         }
     }
 }

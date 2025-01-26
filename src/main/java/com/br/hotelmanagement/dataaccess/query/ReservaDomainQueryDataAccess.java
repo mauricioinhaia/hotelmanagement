@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 
 @Component
 public class ReservaDomainQueryDataAccess {
@@ -16,6 +17,19 @@ public class ReservaDomainQueryDataAccess {
 
     public ReservaDomainQueryDataAccess(ReservaRepository reservaRepository) {
         this.reservaRepository = reservaRepository;
+    }
+
+    public ReservaDomain findById(Long id) {
+        Optional<ReservaDomain> reservaDomainOptional = this.reservaRepository.findById(id);
+        return this.getReservaOptional(reservaDomainOptional, "findById");
+    }
+
+    private ReservaDomain getReservaOptional(Optional<ReservaDomain> reservaDomainOptional, String execucao) {
+        if (reservaDomainOptional.isPresent()) {
+            return reservaDomainOptional.get();
+        } else {
+            throw new DataAccessException("Reserva não encontrada", execucao);
+        }
     }
 
     public Page<ReservaDomain> listarReservasEmAbertoComHospedes(Pageable pageable) {
