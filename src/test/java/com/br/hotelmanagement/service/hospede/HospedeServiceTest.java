@@ -3,14 +3,16 @@ package com.br.hotelmanagement.service.hospede;
 import com.br.hotelmanagement.dataaccess.command.HospedeDomainCommandDataAccess;
 import com.br.hotelmanagement.dataaccess.query.HospedeDomainQueryDataAccess;
 import com.br.hotelmanagement.domain.HospedeDomain;
+import com.br.hotelmanagement.entity.adapter.hospede.HospedeInToHospedeDomainAdapter;
+import com.br.hotelmanagement.entity.records.in.HospedeIn;
 import com.br.hotelmanagement.entity.records.out.HospedeOut;
 import com.br.hotelmanagement.response.PageResponse;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -20,9 +22,11 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 public class HospedeServiceTest {
 
     @Mock
@@ -33,13 +37,9 @@ public class HospedeServiceTest {
     @InjectMocks
     private HospedeService hospedeService;
 
-    @BeforeEach
-    public void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
-
     @Test
-    public void testListarTodos() {
+    @DisplayName("QUANDO receber parametros de paginacao, DEVE gerar pagina com registros correspondentes")
+    public void listarTodos_quandoReceberPaginacao_deveRetornarUmaPagina() {
         Pageable pageable = PageRequest.of(0, 10);
         HospedeDomain hospedeDomain = new HospedeDomain();
         hospedeDomain.setId(1L);
@@ -53,6 +53,7 @@ public class HospedeServiceTest {
 
         PageResponse<HospedeOut> resultado = this.hospedeService.listarTodos(pageable);
 
+        verify(this.hospedeDomainQueryDataAccess).listarTodos(any(Pageable.class));
         assertNotNull(resultado);
         assertEquals(1, resultado.content().size());
         assertEquals(1L, resultado.content().getFirst().id());
@@ -63,24 +64,26 @@ public class HospedeServiceTest {
     }
 
 
-//    @Test
-//    public void testCriar() {
-//        HospedeIn hospedeIn = new HospedeIn(
-//                "João",
-//                "12345678911",
-//                "(49) 99988-7766",
-//                "teste@teste.com"
-//        );
-//
-//        HospedeDomain hospedeDomain = new HospedeDomain();
-//        hospedeDomain.setId(1L);
-//        hospedeDomain.setNome("João");
-//        hospedeDomain.setDocumento("12345678911");
-//        hospedeDomain.setTelefone("(49) 99988-7766");
-//        hospedeDomain.setEmail("teste@teste.com");
-//
-//        when(hospedeDomainCommandDataAccess.save(any(HospedeDomain.class))).thenReturn(hospedeDomain);
-//
-//
-//    }
+    @Test
+    @DisplayName("QUANDO receber dados válidos de HospedeIn, DEVE criar e retornar um HospedeOut com os dados correspondentes")
+    public void criar_quandoReceberHospedeInDeveRetornarHospedeOut() {
+        HospedeIn hospedeIn = new HospedeIn(
+                "João",
+                "12345678911",
+                "(49) 99988-7766",
+                "teste@teste.com"
+        );
+
+        HospedeDomain hospedeDomain = HospedeInToHospedeDomainAdapter.inicializa().converte(hospedeIn);
+
+        when(hospedeDomainCommandDataAccess.save(any(HospedeDomain.class))).thenReturn(hospedeDomain);
+        HospedeOut resultado = this.hospedeService.criar(hospedeIn);
+
+        verify(this.hospedeDomainCommandDataAccess).save(any(HospedeDomain.class));
+        assertNotNull(resultado);
+        assertEquals(resultado.nome(),hospedeIn.nome());
+        assertEquals(resultado.Documento(),hospedeIn.documento());
+        assertEquals(resultado.email(),hospedeIn.email());
+        assertEquals(resultado.telefone(),hospedeIn.telefone());
+    }
 }
