@@ -1,7 +1,7 @@
 package com.br.hotelmanagement.service.reserva;
 
 import com.br.hotelmanagement.domain.ReservaDomain;
-import com.br.hotelmanagement.domain.ReservaStatus;
+import com.br.hotelmanagement.shared.enums.ReservaStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;

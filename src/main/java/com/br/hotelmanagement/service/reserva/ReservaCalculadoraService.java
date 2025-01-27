@@ -5,6 +5,7 @@ import com.br.hotelmanagement.dataaccess.query.TarifaDomainQueryDataAccess;
 import com.br.hotelmanagement.domain.ReservaDomain;
 import com.br.hotelmanagement.domain.TarifaDomain;
 import com.br.hotelmanagement.entity.records.out.ReservaComValoresOut;
+import com.br.hotelmanagement.shared.enums.TarifaTipoServico;
 import com.br.hotelmanagement.utils.DateUtils;
 import org.springframework.stereotype.Service;
 
@@ -37,19 +38,21 @@ public class ReservaCalculadoraService {
         List<TarifaDomain> tarifas = this.tarifaDomainQueryDataAccess.tarifas();
         long diasDeSemana = DateUtils.calcularDiasDeSemana(reservaDomain.getCheckIn(), reservaDomain.getCheckOut());
         long diasFinaisDeSemana = DateUtils.calcularFinaisDeSemana(reservaDomain.getCheckIn(), reservaDomain.getCheckOut());
-        //TODO: fazer enum para tipservico
-        BigDecimal valorTotalReserva = this.calcularValorPorTipo(tarifas, "H", diasDeSemana, diasFinaisDeSemana);
+
+        BigDecimal valorTotalReserva = this.calcularValorPorTipo(
+                tarifas, TarifaTipoServico.HOSPEDAGEM.getSigla(), diasDeSemana, diasFinaisDeSemana);
 
         BigDecimal valorEstacionamento = BigDecimal.ZERO;
         if (reservaDomain.isEstacionamento()) {
-            valorEstacionamento = this.calcularValorPorTipo(tarifas, "E", diasDeSemana, diasFinaisDeSemana);
+            valorEstacionamento = this.calcularValorPorTipo(
+                    tarifas, TarifaTipoServico.ESTACIONAMENTO.getSigla(), diasDeSemana, diasFinaisDeSemana);
         }
 
         valorTotalReserva = valorTotalReserva.add(this.calcularDiariaExtra(
-                tarifas, reservaDomain.getCheckOut(), "H"));
+                tarifas, reservaDomain.getCheckOut(), TarifaTipoServico.HOSPEDAGEM.getSigla()));
         if (reservaDomain.isEstacionamento()) {
             valorEstacionamento = valorEstacionamento.add(this.calcularDiariaExtra(
-                    tarifas, reservaDomain.getCheckOut(), "E"));
+                    tarifas, reservaDomain.getCheckOut(), TarifaTipoServico.ESTACIONAMENTO.getSigla()));
         }
 
         return valorTotalReserva.add(valorEstacionamento);

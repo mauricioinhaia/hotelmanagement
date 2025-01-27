@@ -1,4 +1,4 @@
-package com.br.hotelmanagement.domain;
+package com.br.hotelmanagement.shared.enums;
 
 public enum ReservaStatus {
     ABERTO    ("A", "Reserva em andamento"),

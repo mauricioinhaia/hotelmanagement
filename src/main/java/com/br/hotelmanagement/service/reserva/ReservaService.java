@@ -3,7 +3,7 @@ package com.br.hotelmanagement.service.reserva;
 import com.br.hotelmanagement.dataaccess.command.ReservaDomainCommandDataAccess;
 import com.br.hotelmanagement.dataaccess.query.ReservaDomainQueryDataAccess;
 import com.br.hotelmanagement.domain.ReservaDomain;
-import com.br.hotelmanagement.domain.ReservaStatus;
+import com.br.hotelmanagement.shared.enums.ReservaStatus;
 import com.br.hotelmanagement.entity.adapter.reserva.ReservaDomainToReservaComValoresOutAdapter;
 import com.br.hotelmanagement.entity.adapter.reserva.ReservaDomainToReservaOutAdapter;
 import com.br.hotelmanagement.entity.adapter.reserva.ReservaInToReservaDomainAdapter;
