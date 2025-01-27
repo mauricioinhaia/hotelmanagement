@@ -1,0 +1,208 @@
+{
+	"info": {
+		"_postman_id": "5ca0e44e-5ba7-48dd-8e13-c2ed987c4282",
+		"name": "Hotel Management",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "15066981"
+	},
+	"item": [
+		{
+			"name": "Hospede",
+			"item": [
+				{
+					"name": "Criar hospede",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nome\": \"mauricio inhaia\",\n  \"documento\": \"65498621315\",\n  \"email\": \"teste.inhaia112@email.com\",\n  \"telefone\": \"(49) 91234-5678\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/hospedes"
+					},
+					"response": []
+				},
+				{
+					"name": "Atualizar hospede",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nome\": \"Teste Update\",\n  \"email\": \"mauricio.inhaia112@email.com\",\n  \"telefone\": \"(49) 91234-5678\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/hospedes/17"
+					},
+					"response": []
+				},
+				{
+					"name": "Listar hospedes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/hospedes"
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar por Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/hospedes/17"
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar Hospede",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/hospedes/buscar?email=teste.inhaia112@email.com",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"hospedes",
+								"buscar"
+							],
+							"query": [
+								{
+									"key": "documento",
+									"value": "12345678901",
+									"disabled": true
+								},
+								{
+									"key": "nome",
+									"value": "Joao",
+									"disabled": true
+								},
+								{
+									"key": "email",
+									"value": "teste.inhaia112@email.com"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deletar por Id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "http://localhost:8080/hospedes/16"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Reserva",
+			"item": [
+				{
+					"name": "Criar reserva",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"hospede\": {\n    \"id\": 1,\n    \"nome\": \"João Silva\",\n    \"documento\": \"12345678901\",\n    \"email\": \"joao.silva@email.com\",\n    \"telefone\": \"(47) 99999-1111\"\n  },\n  \"checkIn\": \"2025-01-26T23:00:00\",\n  \"checkOut\": \"2025-01-27T14:00:00\",\n  \"estacionamento\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/reservas"
+					},
+					"response": []
+				},
+				{
+					"name": "Atualizar reserva",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nome\": \"Teste Update\",\n  \"email\": \"mauricio.inhaia112@email.com\",\n  \"telefone\": \"(49) 91234-5678\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/hospedes/4"
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar por Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/reservas/23"
+					},
+					"response": []
+				},
+				{
+					"name": "Listar reservas em aberto com hospedes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/reservas/reservas-em-aberto-com-hospedes"
+					},
+					"response": []
+				},
+				{
+					"name": "Listar reservas finalizadas com hospedes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/reservas/reservas-finalizadas-com-hospedes?",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"reservas",
+								"reservas-finalizadas-com-hospedes"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deletar por Id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "http://localhost:8080/reservas/29"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
