@@ -11,16 +11,15 @@ import java.util.Objects;
 public class ReservaStatusService {
     public ReservaStatus definirStatusReserva(ReservaDomain reservaDomain) {
         if (Objects.nonNull(reservaDomain.getCheckIn()) && Objects.nonNull(reservaDomain.getCheckOut())) {
-            if (reservaDomain.getCheckOut().isBefore(LocalDateTime.now())) {
-                return ReservaStatus.FINALIZADO;
-            }
-            return ReservaStatus.ABERTO;
+            return reservaDomain.getCheckOut().isBefore(LocalDateTime.now())
+                    ? ReservaStatus.FINALIZADO
+                    : ReservaStatus.ABERTO;
         }
 
         if (Objects.nonNull(reservaDomain.getCheckIn()) && Objects.isNull(reservaDomain.getCheckOut())) {
             return ReservaStatus.ABERTO;
         }
 
-        return ReservaStatus.FINALIZADO;
+        return ReservaStatus.ABERTO;
     }
 }
