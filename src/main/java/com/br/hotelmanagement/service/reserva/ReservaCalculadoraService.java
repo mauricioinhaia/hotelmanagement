@@ -5,11 +5,10 @@ import com.br.hotelmanagement.dataaccess.query.TarifaDomainQueryDataAccess;
 import com.br.hotelmanagement.domain.ReservaDomain;
 import com.br.hotelmanagement.domain.TarifaDomain;
 import com.br.hotelmanagement.entity.records.out.ReservaComValoresOut;
+import com.br.hotelmanagement.utils.DateUtils;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
@@ -36,9 +35,8 @@ public class ReservaCalculadoraService {
 
     public BigDecimal calcularValorReserva(ReservaDomain reservaDomain) {
         List<TarifaDomain> tarifas = this.tarifaDomainQueryDataAccess.tarifas();
-        //TODO: CRIAR UTILS PARA DIAS
-        long diasDeSemana = this.calcularDiasDeSemana(reservaDomain.getCheckIn(), reservaDomain.getCheckOut());
-        long diasFinaisDeSemana = this.calcularFinaisDeSemana(reservaDomain.getCheckIn(), reservaDomain.getCheckOut());
+        long diasDeSemana = DateUtils.calcularDiasDeSemana(reservaDomain.getCheckIn(), reservaDomain.getCheckOut());
+        long diasFinaisDeSemana = DateUtils.calcularFinaisDeSemana(reservaDomain.getCheckIn(), reservaDomain.getCheckOut());
         //TODO: fazer enum para tipservico
         BigDecimal valorTotalReserva = this.calcularValorPorTipo(tarifas, "H", diasDeSemana, diasFinaisDeSemana);
 
@@ -77,25 +75,6 @@ public class ReservaCalculadoraService {
                 .add(valorFinalDeSemana.multiply(BigDecimal.valueOf(diasFinaisDeSemana)));
     }
 
-    private long calcularDiasDeSemana(LocalDateTime checkIn, LocalDateTime checkOut) {
-        return checkIn.toLocalDate()
-                .datesUntil(checkOut.toLocalDate())
-                .filter(data -> !isFimDeSemana(data))
-                .count();
-    }
-
-    private long calcularFinaisDeSemana(LocalDateTime checkIn, LocalDateTime checkOut) {
-        return checkIn.toLocalDate()
-                .datesUntil(checkOut.toLocalDate())
-                .filter(this::isFimDeSemana)
-                .count();
-    }
-
-    private boolean isFimDeSemana(LocalDate data) {
-        DayOfWeek dia = data.getDayOfWeek();
-        return dia == DayOfWeek.SATURDAY || dia == DayOfWeek.SUNDAY;
-    }
-
     private BigDecimal calcularDiariaExtra(List<TarifaDomain> tarifas, LocalDateTime checkout, String tipoServico) {
         if (Objects.isNull(tarifas) || tarifas.isEmpty() || Objects.isNull(checkout) || Objects.isNull(tipoServico)) {
             throw new IllegalArgumentException("Para calcular a Diaria Extra precisa informar: as tarifas," +
@@ -103,7 +82,7 @@ public class ReservaCalculadoraService {
         }
 
         if (checkout.toLocalTime().isAfter(LocalTime.of(16, 30))) {
-            boolean isFinalDeSemana = isFimDeSemana(checkout.toLocalDate());
+            boolean isFinalDeSemana = DateUtils.isFimDeSemana(checkout.toLocalDate());
             return tarifas.stream()
                     .filter(tarifa -> tarifa.getTipoServico().equals(tipoServico) && tarifa.isFimdesemana() == isFinalDeSemana)
                     .map(TarifaDomain::getValor)
