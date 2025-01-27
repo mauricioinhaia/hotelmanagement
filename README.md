@@ -17,6 +17,14 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 - JUnit 5 e Mockito para testes unitários
 - Docker para containerização da aplicação
 
+## ⚠️ Diferenciais Implementados
+<p align="justify">
+Além dos requisitos solicitados, implementei alguns diferenciais para demonstrar minhas habilidades e minha atenção à qualidade do projeto:
+
+- Testes Unitários: Incluí exemplos de testes para alguns serviços, demonstrando meu conhecimento em escrita de testes e validação de regras de negócio. A cobertura não está completa, pois o objetivo era apenas ilustrar o domínio dessa prática.
+- Docker: Adicionei um Dockerfile e um docker-compose.yml para facilitar a execução do projeto em ambiente isolado e padronizado.
+</p>
+
 ## 📝 Padrões de Arquitetura
 
 - DDD (Domain-Driven Design): A modelagem de entidades como HospedeDomain, ReservaDomain segue os princípios de DDD para separar claramente as responsabilidades e promover um design de código limpo e coeso.
