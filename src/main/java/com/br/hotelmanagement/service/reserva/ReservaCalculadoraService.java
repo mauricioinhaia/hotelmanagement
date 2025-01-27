@@ -36,6 +36,7 @@ public class ReservaCalculadoraService {
 
     public BigDecimal calcularValorReserva(ReservaDomain reservaDomain) {
         List<TarifaDomain> tarifas = this.tarifaDomainQueryDataAccess.tarifas();
+        //TODO: CRIAR UTILS PARA DIAS
         long diasDeSemana = this.calcularDiasDeSemana(reservaDomain.getCheckIn(), reservaDomain.getCheckOut());
         long diasFinaisDeSemana = this.calcularFinaisDeSemana(reservaDomain.getCheckIn(), reservaDomain.getCheckOut());
         //TODO: fazer enum para tipservico
